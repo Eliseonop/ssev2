@@ -34,7 +34,7 @@ export class AppController {
     const user = sseQuery.user;
     const dataObservable = this.dataService.getObservable(empresa, user);
 
-    console.log("aaa", dataObservable);
+    // console.log("aaa", dataObservable);
 
     return dataObservable.pipe(
       map((data: MessageEventData): MessageEvent => ({ data }))

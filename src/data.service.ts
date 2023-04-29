@@ -10,12 +10,12 @@ export class DataService {
 
   getObservable (empresa: string, user: string): BehaviorSubject<MessageEventData> {
     const dataSubject = this.mapSubjects.get(empresa)
-    console.log('dataSubject 21', dataSubject)
+    // console.log('dataSubject 21', dataSubject)
     if (dataSubject) {
       if (!dataSubject.user.includes(user)) {
         dataSubject.user.push(user)
       }
-      console.log('dataSubject 27', dataSubject.observable)
+      // console.log('dataSubject 27', dataSubject.observable)
       return dataSubject.observable
     }
 
@@ -25,8 +25,8 @@ export class DataService {
       user: [user]
     }
     this.mapSubjects.set(empresa, newEmpresaObservable)
-    console.log('add dataSubject', dataSubject)
-    console.log('soy toods', this.mapSubjects)
+    // console.log('add dataSubject', dataSubject)
+    // console.log('soy toods', this.mapSubjects)
     return newDataSubject
   }
 
@@ -37,7 +37,7 @@ export class DataService {
    */
   setData (data: MessageEventData): { message: string; data: MessageEventData } {
     const empresa = data.empresa
-    console.log('empresa', empresa)
+    // console.log('empresa', empresa)
     if (!empresa) {
       // console.log('empresa is null')
       return { message: 'falta empresa', data: data }
