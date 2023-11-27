@@ -1,8 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { BehaviorSubject } from "rxjs";
-import { MessageEventData } from './messageEventData.model'
+import { MessageEventData } from "./messageEventData.model";
 
 export interface EmpresaObservable {
-  observable: BehaviorSubject<MessageEventData>
-  user: string[]
+  observable: BehaviorSubject<MessageEventData>;
+  user: string[];
 }

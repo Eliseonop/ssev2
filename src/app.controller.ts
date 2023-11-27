@@ -1,21 +1,20 @@
-import { AppService } from "./app.service";
-import { Controller, Query, Sse, Body, Post, Get } from "@nestjs/common";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { DataService } from "./data.service";
-
-import { DataDto } from "./dto/dataDto.dto";
-import { MessageEventData } from "./models/messageEventData.model";
+import { AppService } from './app.service'
+import { Controller, Query, Sse, Body, Post, Get } from '@nestjs/common'
+import { Observable } from 'rxjs'
+import { map } from 'rxjs/operators'
+import { DataService } from './data.service'
+import { DataDto } from './dto/dataDto.dto'
+import { MessageEventData } from './models/messageEventData.model'
 // import { MessageEvent, MessageEventData } from './message-event.interface';
 // import { SseQueryDto } from './sse-query.dto';
 
 interface MessageEvent {
-  data: MessageEventData;
+  data: MessageEventData
 }
 
 @Controller()
 export class AppController {
-  constructor(
+  constructor (
     private readonly appService: AppService,
     private readonly dataService: DataService
   ) {}
@@ -28,44 +27,49 @@ export class AppController {
   //     data: data.value,
   //   };
   // }
-  @Sse("sse")
-  sse(@Query() sseQuery: SseQueryDto): Observable<MessageEvent> {
-    const empresa = sseQuery.empresa;
-    const user = sseQuery.user;
-    const dataObservable = this.dataService.getObservable(empresa, user);
+  @Sse('sse')
+  sse (@Query() sseQuery: SseQueryDto): Observable<MessageEvent> {
+    const empresa = sseQuery.empresa
+    const user = sseQuery.user
+    const dataObservable = this.dataService.getObservable(empresa, user)
 
     // console.log("aaa", dataObservable);
 
     return dataObservable.pipe(
       map((data: MessageEventData): MessageEvent => ({ data }))
-    );
+    )
   }
 
-  @Post("data")
-  setData(@Body() data: DataDto): { message: string; data: MessageEventData } {
-    console.log("data", data);
+  @Post('data')
+  setData (@Body() data: DataDto): { message: string; data: MessageEventData } {
+    console.log('data', data)
     const messageData: MessageEventData = {
       value: data.value,
       empresa: data.empresa,
       userId: data.userId,
       crudId: data.crudId,
-      type: data.type,
-    };
-    return this.dataService.setData(messageData);
+      type: data.type
+    }
+    return this.dataService.setData(messageData)
   }
 
-  @Get("allData")
-  getAllData(): { message: string; data: any[] } {
+  @Get('allData')
+  getAllData (): { message: string; data: any[] } {
     try {
-      return this.dataService.getAllData();
+      return this.dataService.getAllData()
     } catch (error) {
-      console.log("error", error);
-      return { message: "error", data: error };
+      console.log('error', error)
+      return { message: 'error', data: error }
     }
+  }
+
+  @Get('')
+  getStatus (): { message: string; date: Date } {
+    return { message: 'ok', date: new Date() }
   }
 }
 
 interface SseQueryDto {
-  empresa: string;
-  user: string;
+  empresa: string
+  user: string
 }
